@@ -4,6 +4,7 @@ import "./Navbar.css";
 
 const Navbar = () => {
   const [isAuth, setIsAuth] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // 🔥 toggle state
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,27 +14,50 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("isAuthenticated");
     setIsAuth(false);
-    navigate("/login");
+    navigate("/");
+    setIsOpen(false);
   };
+
+  const closeMenu = () => setIsOpen(false);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
       <div className="container">
 
-        <Link className="navbar-brand" to="/">
+        {/* Logo */}
+        <Link className="navbar-brand" to="/" onClick={closeMenu}>
           <img src="image.png" alt="Vajra Logo" className="navbar-logo" />
         </Link>
 
-        <div className="collapse navbar-collapse show">
-          <ul className="navbar-nav mx-auto">
+        {/* Toggle Button */}
+        <button
+          className="navbar-toggler"
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        {/* Menu */}
+        <div className={`collapse navbar-collapse ${isOpen ? "show" : ""}`}>
+          <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
+
             <li className="nav-item">
-              <NavLink to="/" className="nav-link">Home</NavLink>
+              <NavLink to="/" className="nav-link" onClick={closeMenu}>
+                Home
+              </NavLink>
             </li>
+
             <li className="nav-item">
-              <NavLink to="/about" className="nav-link">About</NavLink>
+              <NavLink to="/about" className="nav-link" onClick={closeMenu}>
+                About
+              </NavLink>
             </li>
+
             <li className="nav-item">
-              <NavLink to="/contact" className="nav-link">Contact</NavLink>
+              <NavLink to="/contact" className="nav-link" onClick={closeMenu}>
+                Contact
+              </NavLink>
             </li>
           </ul>
 
@@ -41,10 +65,19 @@ const Navbar = () => {
           <div className="navbar-actions">
             {!isAuth ? (
               <>
-                <Link to="/signup" className="btn btn-outline-primary me-2">
+                <Link
+                  to="/signup"
+                  className="btn btn-outline-primary me-2"
+                  onClick={closeMenu}
+                >
                   Sign Up
                 </Link>
-                <Link to="/login" className="btn btn-primary">
+
+                <Link
+                  to="/login"
+                  className="btn btn-primary"
+                  onClick={closeMenu}
+                >
                   Log In
                 </Link>
               </>
@@ -54,7 +87,6 @@ const Navbar = () => {
               </button>
             )}
           </div>
-
         </div>
       </div>
     </nav>

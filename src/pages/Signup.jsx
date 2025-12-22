@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./Signup.css";
-import { useNavigate } from "react-router-dom";
-
+import { NavLink, Link, useNavigate } from "react-router-dom";
 const Signup = () => {
   const navigate = useNavigate();
 
@@ -107,7 +106,11 @@ const Signup = () => {
 
         <div className="signup-footer">
           <span>Already have an account?</span>
-          <a href="/login"> Log In</a>
+          {/* <a href="/login"> Log In</a> */}
+          <Link to="/login" className="">
+                  Log In
+                </Link>
+
         </div>
       </div>
     </div>
