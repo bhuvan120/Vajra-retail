@@ -1,95 +1,63 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
-import { NavLink, Link } from "react-router-dom";
 
 const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
+  const navigate = useNavigate();
 
-  const closeMenu = () => setMenuOpen(false);
+  useEffect(() => {
+    setIsAuth(localStorage.getItem("isAuthenticated") === "true");
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("isAuthenticated");
+    setIsAuth(false);
+    navigate("/login");
+  };
 
   return (
-    <header>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-        <div className="container">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+      <div className="container">
 
-          {/* Logo */}
-          <Link className="navbar-brand" to="/" onClick={closeMenu}>
-            <img src="image.png" alt="Vajra Logo" className="navbar-logo" />
-          </Link>
+        <Link className="navbar-brand" to="/">
+          <img src="image.png" alt="Vajra Logo" className="navbar-logo" />
+        </Link>
 
-          {/* Toggle Button */}
-          <button
-            className="navbar-toggler"
-            type="button"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
+        <div className="collapse navbar-collapse show">
+          <ul className="navbar-nav mx-auto">
+            <li className="nav-item">
+              <NavLink to="/" className="nav-link">Home</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/about" className="nav-link">About</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/contact" className="nav-link">Contact</NavLink>
+            </li>
+          </ul>
 
-          {/* Menu */}
-          <div className={`collapse navbar-collapse ${menuOpen ? "show" : ""}`}>
-            <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
-
-              <li className="nav-item">
-                <NavLink
-                  to="/"
-                  onClick={closeMenu}
-                  className={({ isActive }) =>
-                    isActive ? "nav-link active-link" : "nav-link"
-                  }
-                >
-                  Home
-                </NavLink>
-              </li>
-
-              <li className="nav-item">
-                <NavLink
-                  to="/about"
-                  onClick={closeMenu}
-                  className={({ isActive }) =>
-                    isActive ? "nav-link active-link" : "nav-link"
-                  }
-                >
-                  About
-                </NavLink>
-              </li>
-
-              <li className="nav-item">
-                <NavLink
-                  to="/contact"
-                  onClick={closeMenu}
-                  className={({ isActive }) =>
-                    isActive ? "nav-link active-link" : "nav-link"
-                  }
-                >
-                  Contact
-                </NavLink>
-              </li>
-            </ul>
-
-            {/* Auth Buttons */}
-            <div className="navbar-actions">
-              <Link
-                to="/signup"
-                className="btn btn-outline-primary fw-bold me-2"
-                onClick={closeMenu}
-              >
-                Sign Up
-              </Link>
-
-              <Link
-                to="/login"
-                className="btn btn-primary fw-bold"
-                onClick={closeMenu}
-              >
-                Log In
-              </Link>
-            </div>
+          {/* AUTH BUTTONS */}
+          <div className="navbar-actions">
+            {!isAuth ? (
+              <>
+                <Link to="/signup" className="btn btn-outline-primary me-2">
+                  Sign Up
+                </Link>
+                <Link to="/login" className="btn btn-primary">
+                  Log In
+                </Link>
+              </>
+            ) : (
+              <button onClick={handleLogout} className="btn btn-danger">
+                Log Out
+              </button>
+            )}
           </div>
 
         </div>
-      </nav>
-    </header>
+      </div>
+    </nav>
   );
 };
 
