@@ -28,6 +28,16 @@ const Signup = () => {
             />
           </div>
 
+          {/* Phone Number */}
+          <div className="form-group">
+            <label>Phone Number</label>
+            <input
+              type="tel"
+              placeholder="Enter your phone number"
+              required
+            />
+          </div>
+
           <div className="form-group">
             <label>Password</label>
             <input

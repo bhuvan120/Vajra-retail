@@ -31,18 +31,27 @@ const products = [
 const Home = () => {
   return (
     <main>
-      {/* ===== Hero Section ===== */}
+
+      {/* HERO */}
       <section className="home-hero">
         <div className="home-hero-content">
           <h1>Vajra Retails</h1>
-          <p>Your Everyday Shopping Destination</p>
+          <p>Smart Shopping. Better Living.</p>
           <button className="btn btn-primary btn-lg">
             Shop Now
           </button>
         </div>
       </section>
 
-      {/* ===== Categories ===== */}
+      {/* TRUST BAR */}
+      <section className="trust-bar">
+        <div className="trust-item">🚚 Free Delivery</div>
+        <div className="trust-item">🔒 Secure Payments</div>
+        <div className="trust-item">↩ Easy Returns</div>
+        <div className="trust-item">⭐ Trusted by 10K+ Customers</div>
+      </section>
+
+      {/* CATEGORIES */}
       <section className="categories">
         <h2>Shop by Category</h2>
         <div className="category-grid">
@@ -53,7 +62,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ===== Products ===== */}
+      {/* PRODUCTS */}
       <section className="products">
         <h2>Featured Products</h2>
         <div className="product-grid">
@@ -62,13 +71,42 @@ const Home = () => {
               <img src={item.image} alt={item.name} />
               <h4>{item.name}</h4>
               <p>{item.price}</p>
-              <button className="btn btn-outline-primary">
-                Add to Cart
+              <button className="btn btn-outline-primary btn-sm">
+                View Product
               </button>
             </div>
           ))}
         </div>
       </section>
+
+      {/* OFFER SECTION */}
+      <section className="offer-section">
+        <h2>Special Offer</h2>
+        <p>Flat 20% OFF on your first order</p>
+        <button className="btn btn-dark">
+          Grab Deal
+        </button>
+      </section>
+
+      {/* WHY US */}
+      <section className="why-us">
+        <h2>Why Choose Vajra Retails?</h2>
+        <div className="why-grid">
+          <div className="why-card">
+            <h4>Quality Products</h4>
+            <p>Handpicked products from trusted brands.</p>
+          </div>
+          <div className="why-card">
+            <h4>Affordable Prices</h4>
+            <p>Best prices without compromising quality.</p>
+          </div>
+          <div className="why-card">
+            <h4>Fast Support</h4>
+            <p>24/7 customer support for your needs.</p>
+          </div>
+        </div>
+      </section>
+
     </main>
   );
 };

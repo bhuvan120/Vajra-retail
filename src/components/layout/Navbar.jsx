@@ -49,10 +49,10 @@ const Navbar = () => {
             <div className="navbar-actions">
               
               {/* Cart */}
-              <div className="cart-icon me-3">
+              {/* <div className="cart-icon me-3">
                 <span className="cart-count">0</span>
                  🛒 
-              </div>
+              </div> */}
 
               {/* Auth Buttons */}
               {/* <button className="btn btn-outline-primary fw-bold me-2">

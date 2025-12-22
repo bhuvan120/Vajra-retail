@@ -96,3 +96,56 @@
     transform: translateY(0);
   }
 }
+
+/* Values Section */
+.about-values {
+  padding: 60px 20px;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+
+.about-values h2 {
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+.values-grid {
+  max-width: 1100px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 25px;
+}
+
+.value-card {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #e5e5e5;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+.value-card h4 {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* Why Choose Us */
+.about-choose {
+  padding: 50px 20px;
+}
+
+.about-choose ul {
+  margin-top: 15px;
+  padding-left: 20px;
+  color: #6c757d;
+}
+
+.about-choose li {
+  margin-bottom: 8px;
+}

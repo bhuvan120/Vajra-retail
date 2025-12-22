@@ -1,94 +1,33 @@
 import React from "react";
-import Navbar from "./components/layout/Navbar";
-import Footer from "./components/layout/Footer";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import MainLayout from "./components/layout/MainLayout";
+
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Login from "./pages/Login";
 import Contact from "./pages/Contact";
-
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
 function App() {
   return (
+    <BrowserRouter>
+      <Routes>
 
-      <BrowserRouter>
-       <Routes>
+        {/* Routes WITH Navbar & Footer */}
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+        </Route>
 
-        <Route 
-        path="/"
-        element={
-          <>
-          <Navbar/>
-          <Home/>
-          <Footer/>
+        {/* Routes WITHOUT Navbar & Footer */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
 
-          </>
-        }
-      />
-
-
-      <Route 
-
-        path="/about"
-        element={
-          <>
-          <Navbar/>
-          <About/>
-          <Footer/>
-
-          </>
-        }
-      />
-
-      <Route 
-      
-        path="/contact"
-        element={
-          <>
-          <Navbar/>
-          <Contact/>
-          <Footer/>
-           
-
-          </>
-        }
-      />
-
-      <Route 
-      
-        path="/login"
-        element={
-          <>
-          {/* <Navbar/> */}
-          <Login/>
-          {/* <Footer/> */}
-
-          </>
-        }
-      />
-
-      <Route 
-      
-        path="/signup"
-        element={
-          <>
-          {/* <Navbar/> */}
-          <Signup/>
-          {/* <Footer/> */}
-
-          </>
-        }
-      />
-
-
-
-        </Routes>
-      </BrowserRouter>
-
-  
-
-  )
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
