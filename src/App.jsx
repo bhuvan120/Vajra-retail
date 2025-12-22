@@ -30,7 +30,7 @@ function App() {
 
       <Route 
 
-        path="/About"
+        path="/about"
         element={
           <>
           <Navbar/>
@@ -48,6 +48,7 @@ function App() {
           <>
           <Navbar/>
           <Contact/>
+          <Footer/>
            
 
           </>
@@ -56,10 +57,10 @@ function App() {
 
       <Route 
       
-        path="/Login"
+        path="/login"
         element={
           <>
-          <Navbar/>
+          {/* <Navbar/> */}
           <Login/>
           {/* <Footer/> */}
 
@@ -72,7 +73,7 @@ function App() {
         path="/signup"
         element={
           <>
-          <Navbar/>
+          {/* <Navbar/> */}
           <Signup/>
           {/* <Footer/> */}
 
