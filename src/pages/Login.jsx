@@ -26,19 +26,20 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
 
-      // Role-based navigation
       if (email === "harigudipati666@gmail.com") {
         navigate("/admindashboard");
       } else {
-        navigate("/userdashboard");
+        navigate("/dashboard");
       }
     } catch (err) {
-      setError("Invalid email or password",err);
+      setError(err.message || "Invalid email or password");
     }
   };
 
   // Google Login
   const handleGoogleLogin = async () => {
+    setError("");
+
     try {
       const result = await signInWithPopup(auth, provider);
       const userEmail = result.user.email;
@@ -49,7 +50,7 @@ const Login = () => {
         navigate("/dashboard");
       }
     } catch (err) {
-      setError("Google login failed",err);
+      setError(err.message || "Google login failed");
     }
   };
 
@@ -63,7 +64,6 @@ const Login = () => {
             {error && <div className="alert alert-danger">{error}</div>}
 
             <form onSubmit={handleLogin}>
-              {/* Email */}
               <div className="mb-3">
                 <input
                   type="email"
@@ -75,7 +75,6 @@ const Login = () => {
                 />
               </div>
 
-              {/* Password */}
               <div className="mb-3 position-relative">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -89,7 +88,7 @@ const Login = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   style={{
                     position: "absolute",
-                    right: "10px",
+                    right: 10,
                     top: "50%",
                     transform: "translateY(-50%)",
                     cursor: "pointer"
@@ -99,13 +98,11 @@ const Login = () => {
                 </span>
               </div>
 
-              {/* Login Button */}
               <button type="submit" className="btn btn-primary w-100 mb-2">
                 Login
               </button>
             </form>
 
-            {/* Forgot Password */}
             <button
               type="button"
               className="btn btn-link w-100 mb-3"
@@ -114,7 +111,6 @@ const Login = () => {
               Forgot Password?
             </button>
 
-            {/* Google Login */}
             <button
               type="button"
               className="btn btn-danger w-100"

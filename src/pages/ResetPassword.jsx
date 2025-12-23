@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { sendPasswordResetEmail } from "firebase/auth";
+import {
+  fetchSignInMethodsForEmail,
+  sendPasswordResetEmail
+} from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 
@@ -16,15 +19,30 @@ const ResetPassword = () => {
     setInfo("");
 
     try {
+      // ✅ Check if email exists in Firebase Auth
+      const methods = await fetchSignInMethodsForEmail(auth, email);
+
+      if (methods.length === 0) {
+        // ❌ Email NOT registered
+        setError("Email not found. Redirecting to signup...");
+
+        setTimeout(() => {
+          navigate("/signup");
+        }, 2000);
+
+        return;
+      }
+
+      // ✅ Email exists → send reset link
       await sendPasswordResetEmail(auth, email);
       setInfo("Password reset email sent. Redirecting to login...");
 
-      // Navigate to login page after 2 seconds
       setTimeout(() => {
         navigate("/login");
       }, 2000);
+
     } catch (err) {
-      setError(err.message || "Failed to send reset email");
+      setError("Something went wrong. Please try again.",err);
     }
   };
 

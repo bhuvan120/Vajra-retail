@@ -15,7 +15,7 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
-  const [showToast, setShowToast] = useState(false); // ✅ Toast state
+  const [showToast, setShowToast] = useState(false);
 
   const navigate = useNavigate();
 
@@ -29,7 +29,12 @@ const Signup = () => {
     }
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
       const user = userCredential.user;
 
       await setDoc(doc(db, "users", user.uid), {
@@ -40,19 +45,26 @@ const Signup = () => {
         createdAt: new Date(),
       });
 
-      // ✅ Show Toast
+      // ✅ Signup success toast
       setShowToast(true);
 
-      // ✅ Wait 2 seconds then navigate to login
+      // ✅ Redirect to login after 2 seconds
       setTimeout(() => {
         navigate("/login");
       }, 2000);
 
     } catch (err) {
+      // ✅ EMAIL ALREADY EXISTS
       if (err.code === "auth/email-already-in-use") {
-        setError("Email already registered. Please login.");
+        setError("Email already registered. Redirecting to login...");
+
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+
       } else if (err.code === "auth/weak-password") {
         setError("Password must be at least 6 characters.");
+
       } else {
         setError(err.message);
       }
@@ -64,22 +76,15 @@ const Signup = () => {
       <div className="row justify-content-center">
         <div className="col-md-6">
           <div className="card p-4 shadow">
-            <h2 className="card-title mb-3 text-center">Sign Up</h2>
+            <h2 className="text-center mb-3">Sign Up</h2>
 
             {error && <div className="alert alert-danger">{error}</div>}
 
-            {/* ✅ Bootstrap Toast */}
             {showToast && (
-              <div
-                className="toast show position-fixed top-0 end-0 m-3"
-                role="alert"
-                aria-live="assertive"
-                aria-atomic="true"
-              >
+              <div className="toast show position-fixed top-0 end-0 m-3">
                 <div className="toast-header">
                   <strong className="me-auto">Signup</strong>
                   <button
-                    type="button"
                     className="btn-close"
                     onClick={() => setShowToast(false)}
                   ></button>
@@ -91,50 +96,41 @@ const Signup = () => {
             )}
 
             <form onSubmit={handleSignup}>
-              <div className="mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Full Name"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  required
-                />
-              </div>
+              <input
+                type="text"
+                className="form-control mb-3"
+                placeholder="Full Name"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+              />
 
-              <div className="mb-3">
-                <input
-                  type="email"
-                  className="form-control"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
+              <input
+                type="email"
+                className="form-control mb-3"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
 
-              <div className="mb-3">
-                <input
-                  type="tel"
-                  className="form-control"
-                  placeholder="Mobile Number"
-                  value={mobile}
-                  onChange={(e) => setMobile(e.target.value)}
-                  required
-                />
-              </div>
+              <input
+                type="tel"
+                className="form-control mb-3"
+                placeholder="Mobile Number"
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value)}
+                required
+              />
 
-              <div className="mb-3">
-                <textarea
-                  className="form-control"
-                  placeholder="Address"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  required
-                />
-              </div>
+              <textarea
+                className="form-control mb-3"
+                placeholder="Address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                required
+              />
 
-              {/* Password Field with Toggle */}
               <div className="mb-3 position-relative">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -146,19 +142,12 @@ const Signup = () => {
                 />
                 <span
                   onClick={() => setShowPassword(!showPassword)}
-                  style={{
-                    position: "absolute",
-                    right: "10px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    cursor: "pointer",
-                  }}
+                  style={{ position: "absolute", right: 10, top: "50%", cursor: "pointer" }}
                 >
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </span>
               </div>
 
-              {/* Confirm Password Field with Toggle */}
               <div className="mb-4 position-relative">
                 <input
                   type={showConfirmPassword ? "text" : "password"}
@@ -170,13 +159,7 @@ const Signup = () => {
                 />
                 <span
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  style={{
-                    position: "absolute",
-                    right: "10px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    cursor: "pointer",
-                  }}
+                  style={{ position: "absolute", right: 10, top: "50%", cursor: "pointer" }}
                 >
                   {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                 </span>
