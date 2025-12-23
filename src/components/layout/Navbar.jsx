@@ -59,6 +59,12 @@ const Navbar = () => {
                 Contact
               </NavLink>
             </li>
+
+             <li className="nav-item">
+              <NavLink to="/admindashboard" className="nav-link" onClick={closeMenu}>
+                AdminDashboard
+              </NavLink>
+            </li>
           </ul>
 
           {/* AUTH BUTTONS */}

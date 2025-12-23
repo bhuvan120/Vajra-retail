@@ -13,6 +13,7 @@ const Login = () => {
 
     navigate("/"); // redirect to home
   };
+  
 
   return (
     <div className="login-page">
