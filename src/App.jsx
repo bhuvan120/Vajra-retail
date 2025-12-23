@@ -11,6 +11,8 @@ import Signup from "./pages/Signup";
 import AdminDashboard from "./dashboards/AdminDashboard";
 import PageNotFound from "./pages/PageNotFound";
 import UserDashboard from "./dashboards/UserDashboard";
+import ResetPassword from "./pages/ResetPassword";
+
 
 function App() {
   return (
@@ -26,6 +28,7 @@ function App() {
 
       {/* Routes WITHOUT Navbar & Footer */}
       <Route path="/login" element={<Login />} />
+      <Route path="/reset" element={<ResetPassword />} />
       <Route path="*" element={<PageNotFound/>}/>
       <Route path="/signup" element={<Signup />} />
     </Routes>

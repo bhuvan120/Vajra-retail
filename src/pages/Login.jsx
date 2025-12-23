@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   signInWithEmailAndPassword,
-  sendPasswordResetEmail,
   signInWithPopup,
   GoogleAuthProvider
 } from "firebase/auth";
@@ -12,63 +11,45 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 const provider = new GoogleAuthProvider();
 
 const Login = () => {
-  const [identifier, setIdentifier] = useState(""); // Email or Phone
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const [info, setInfo] = useState("");
 
   const navigate = useNavigate();
 
-  // Login handler
+  // Email & Password Login
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
-    setInfo("");
 
     try {
-      // Use email as login (phone login would require additional mapping)
-      await signInWithEmailAndPassword(auth, identifier, password);
+      await signInWithEmailAndPassword(auth, email, password);
 
       // Role-based navigation
-      if (identifier === "harigudipati666@gmail.com") {
+      if (email === "harigudipati666@gmail.com") {
         navigate("/admindashboard");
       } else {
-        navigate("/dashboard");
+        navigate("/userdashboard");
       }
     } catch (err) {
-      setError(err.message || "Invalid email/phone or password");
+      setError("Invalid email or password",err);
     }
   };
 
-  // Password reset
-  const handleResetPassword = async () => {
-    if (!identifier) {
-      setError("Please enter your email to reset password");
-      return;
-    }
-
-    try {
-      await sendPasswordResetEmail(auth, identifier);
-      setInfo("Password reset email sent. Check your inbox.");
-    } catch (err) {
-      setError(err.message || "Failed to send reset email");
-    }
-  };
-
-  // Google login
-  const googleLogin = async () => {
+  // Google Login
+  const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const userEmail = result.user.email;
 
       if (userEmail === "harigudipati666@gmail.com") {
-        navigate("/admin-dashboard");
+        navigate("/admindashboard");
       } else {
         navigate("/dashboard");
       }
     } catch (err) {
-      setError(err.message || "Google login failed");
+      setError("Google login failed",err);
     }
   };
 
@@ -77,23 +58,24 @@ const Login = () => {
       <div className="row justify-content-center">
         <div className="col-md-6">
           <div className="card p-4 shadow">
-            <h2 className="card-title mb-3 text-center">Login</h2>
+            <h2 className="text-center mb-4">Login</h2>
 
             {error && <div className="alert alert-danger">{error}</div>}
-            {info && <div className="alert alert-success">{info}</div>}
 
             <form onSubmit={handleLogin}>
+              {/* Email */}
               <div className="mb-3">
                 <input
-                  type="text"
+                  type="email"
                   className="form-control"
                   placeholder="Email"
-                  value={identifier}
-                  onChange={(e) => setIdentifier(e.target.value)}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
 
+              {/* Password */}
               <div className="mb-3 position-relative">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -117,21 +99,26 @@ const Login = () => {
                 </span>
               </div>
 
+              {/* Login Button */}
               <button type="submit" className="btn btn-primary w-100 mb-2">
                 Login
               </button>
             </form>
 
+            {/* Forgot Password */}
             <button
+              type="button"
               className="btn btn-link w-100 mb-3"
-              onClick={handleResetPassword}
+              onClick={() => navigate("/reset")}
             >
               Forgot Password?
             </button>
 
+            {/* Google Login */}
             <button
+              type="button"
               className="btn btn-danger w-100"
-              onClick={googleLogin}
+              onClick={handleGoogleLogin}
             >
               Login with Google
             </button>
